@@ -23,7 +23,7 @@ class Window():
     def __init__(self, master):
         self.master = master
         self.master.title("PDFx - A metaphorical Swiss-Knife for PDF files")
-        self.master.geometry('700x300')
+        self.master.geometry('700x400')
 
         # Embed the encoded byte-data of the PNG files into the main program directly
         small_icon = PhotoImage(data=b64decode(small_icon_data))
@@ -34,7 +34,7 @@ class Window():
         self.RadioFrame.place(x=10, y=10)
 
         self.InfoFrame = LabelFrame(self.master, text="AppInfo", width=250, height=150)
-        self.InfoFrame.place(x=10, y=220)
+        self.InfoFrame.place(x=10, y=320)
 
         Options = {
             "Extract All": "extractall",
@@ -42,7 +42,8 @@ class Window():
             "Merge": "merge",
             "Convert to PNG": "pdf2png",
             "Add Password": "encrypt",
-            "Remove Password": "decrypt"
+            "Remove Password": "decrypt",
+            "Compress": "compress"
         }
 
         selection = StringVar()
@@ -53,8 +54,21 @@ class Window():
 
         Label(self.InfoFrame, text=f"Creator: Unmesh Patil\nLanguage: Python\nVersion: 23.07.22", wraplength=400, justify=LEFT).pack(anchor=W)
 
+        def clear_canvas():
+            try:
+                self.ExtractAllFrame.destroy()
+                self.ExtractRangeFrame.destroy()
+                self.MergeFrame.destroy()
+                self.ExtractPNGFrame.destroy()
+                self.EncryptFrame.destroy()
+                self.DecryptFrame.destroy()
+                self.CompressFrame.destroy()
+            except AttributeError:
+                pass
+
         def Clicked(variable):
             if selection.get() == "extractall":
+                clear_canvas()
                 self.ExtractAllFrame = LabelFrame(self.master, text="Extract All Pages", width=250, height=150)
                 self.ExtractAllFrame.place(x=165, y=10)
                 frame = self.ExtractAllFrame
@@ -86,24 +100,18 @@ class Window():
                         messagebox.showinfo(title="Success", message="Task completed successfully.")
                     except Exception as e:
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
-                Label(frame, text="Password for encrypted files:", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                Label(frame, text="Password for encrypted file:", wraplength=400, justify=LEFT).grid(row=2, column=0)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=2, column=1)
                 Button(frame, text="Select File", command=lambda: extractall()).grid(row=3, column=0, padx=10, pady=10, columnspan=2)
-                try:
-                    self.ExtractRangeFrame.destroy()
-                    self.MergeFrame.destroy()
-                    self.ExtractPNGFrame.destroy()
-                    self.DecryptFrame.destroy()
-                except AttributeError:
-                    pass
 
             elif selection.get() == "extractrange":
+                clear_canvas()
                 self.ExtractRangeFrame = LabelFrame(self.master, text="Extract Custom Range", width=250, height=150)
                 self.ExtractRangeFrame.place(x=165, y=10)
                 frame = self.ExtractRangeFrame
                 Label(frame, text="NOTE:- You may select only one file at a time for extraction.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=0, column=0, columnspan=2, padx=10, pady=10)
-                Label(frame, text="Password for encrypted files:", wraplength=400, justify=LEFT).grid(row=1, column=0)
+                Label(frame, text="Password for encrypted file:", wraplength=400, justify=LEFT).grid(row=1, column=0)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=1, column=1)
                 Label(frame, text="Step# 1 --> Start Page#", wraplength=400, justify=LEFT).grid(row=2, column=0)
@@ -146,15 +154,9 @@ class Window():
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
                 Label(frame, text="Step# 3 --> ", wraplength=400, justify=LEFT).grid(row=4, column=0)
                 Button(frame, text="Select File", command=lambda: extractrange()).grid(row=4, column=1, padx=5, pady=5)
-                try:
-                    self.ExtractAllFrame.destroy()
-                    self.MergeFrame.destroy()
-                    self.ExtractPNGFrame.destroy()
-                    self.DecryptFrame.destroy()
-                except AttributeError:
-                    pass
 
             elif selection.get() == "merge":
+                clear_canvas()
                 self.MergeFrame = LabelFrame(self.master, text="Merge PDF", width=250, height=150)
                 self.MergeFrame.place(x=165, y=10)
                 frame = self.MergeFrame
@@ -183,15 +185,9 @@ class Window():
                     except Exception as e:
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
                 Button(frame, text="Select Files", command=lambda: mergeall()).grid(row=3, column=0, padx=10, pady=10, columnspan=2)
-                try:
-                    self.ExtractAllFrame.destroy()
-                    self.ExtractRangeFrame.destroy()
-                    self.ExtractPNGFrame.destroy()
-                    self.DecryptFrame.destroy()
-                except AttributeError:
-                    pass
 
             elif selection.get() == "pdf2png":
+                clear_canvas()
                 self.ExtractPNGFrame = LabelFrame(self.master, text="Extract All Pages As PNG", width=250, height=150)
                 self.ExtractPNGFrame.place(x=165, y=10)
                 frame = self.ExtractPNGFrame
@@ -233,20 +229,14 @@ class Window():
                         messagebox.showinfo(title="Success", message="Task completed successfully.")
                     except Exception as e:
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
-                Label(frame, text="Password for encrypted files:", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                Label(frame, text="Password for encrypted file:", wraplength=400, justify=LEFT).grid(row=2, column=0)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=2, column=1)
                 Label(frame, text="IMP:- This may take a while. Please be patient.....", fg='Red', wraplength=400, justify=LEFT, font='Helvetica 11 bold').grid(row=3, column=0, columnspan=2, padx=15, pady=15)
                 Button(frame, text="Select File", command=lambda: extractpng()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
-                try:
-                    self.ExtractAllFrame.destroy()
-                    self.ExtractRangeFrame.destroy()
-                    self.MergeFrame.destroy()
-                    self.DecryptFrame.destroy()
-                except AttributeError:
-                    pass
 
             elif selection.get() == "decrypt":
+                clear_canvas()
                 self.DecryptFrame = LabelFrame(self.master, text="Remove PDF Password", width=250, height=150)
                 self.DecryptFrame.place(x=165, y=10)
                 frame = self.DecryptFrame
@@ -279,19 +269,13 @@ class Window():
                         messagebox.showinfo(title="Success", message="Task completed successfully.")
                     except Exception as e:
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
-                Label(frame, text="Password for encrypted files:", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                Label(frame, text="Password for encrypted file:", wraplength=400, justify=LEFT).grid(row=2, column=0)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=2, column=1)
                 Button(frame, text="Select File", command=lambda: decrypt()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
-                try:
-                    self.ExtractAllFrame.destroy()
-                    self.ExtractRangeFrame.destroy()
-                    self.MergeFrame.destroy()
-                    self.ExtractPNGFrame.destroy()
-                except AttributeError:
-                    pass
 
             elif selection.get() == "encrypt":
+                clear_canvas()
                 self.EncryptFrame = LabelFrame(self.master, text="Remove PDF Password", width=250, height=150)
                 self.EncryptFrame.place(x=165, y=10)
                 frame = self.EncryptFrame
@@ -324,17 +308,51 @@ class Window():
                         messagebox.showinfo(title="Success", message="Task completed successfully.")
                     except Exception as e:
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
-                Label(frame, text="Password for encrypted files:", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                Label(frame, text="Password to encrypt file:", wraplength=400, justify=LEFT).grid(row=2, column=0)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=2, column=1)
                 Button(frame, text="Select File", command=lambda: encrypt()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
-                try:
-                    self.ExtractAllFrame.destroy()
-                    self.ExtractRangeFrame.destroy()
-                    self.MergeFrame.destroy()
-                    self.ExtractPNGFrame.destroy()
-                except AttributeError:
-                    pass
+
+            elif selection.get() == "compress":
+                clear_canvas()
+                self.CompressFrame = LabelFrame(self.master, text="Remove PDF Password", width=250, height=150)
+                self.CompressFrame.place(x=165, y=10)
+                frame = self.CompressFrame
+                Label(frame, text="NOTE:- You may select only one file at a time for compression.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2)
+                def compress():
+                    try:
+                        # Fetch the filepath
+                        absfilepath = filedialog.askopenfilename(initialdir="/", title="Select a file", filetypes=[("PDF files", "*.pdf")])
+                        filepath = absfilepath.replace('/', '\\')
+                        p = Path(filepath)
+                        outputdir = str(p.parent)
+                        filename_only = str(p.name).split('.')[0]
+                        fileext = str(p.suffix)
+                        Label(frame, text=f"Selected File:- {filepath}", wraplength=400, justify=LEFT).grid(row=5, column=0, columnspan=3, sticky='w', padx=5, pady=5)
+                        # Extract all pages of the PDF file
+                        input_pdf = PdfReader(filepath)
+                        if input_pdf.is_encrypted:
+                            password = str(passtext.get())
+                            input_pdf.decrypt(password)
+                        # Create a copy of the file; reqd as input for fitz
+                        output = PdfWriter()
+                        for i, page in enumerate(input_pdf.pages):
+                            # page.compress_content_streams()         #<-- This is CPU intensive!
+                            output.add_page(page)
+                        # Compress the PDF
+                        output.add_metadata(input_pdf.metadata)
+                        compressed_filepath = fr"{outputdir}\{filename_only}_Compressed.pdf"
+                        with open(compressed_filepath, "wb") as output_stream:
+                            output.write(output_stream)
+                        Label(frame, text=f"Compressed File:- {compressed_filepath}", bg="lime", fg="black", wraplength=475, justify=LEFT).grid(row=7, column=0, sticky='w', padx=5, pady=5)
+                        messagebox.showinfo(title="Success", message="Task completed successfully.")
+                    except Exception as e:
+                        messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
+                Label(frame, text="Password for encrypted file:", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                Label(frame, text="IMP:- Compression works only if the input file is inflated or has duplicated objects.", fg='Red', wraplength=400, justify=LEFT, font='TkTextFont 10 bold').grid(row=3, column=0, columnspan=2, padx=15, pady=15)
+                passtext = Entry(frame, show="*", width=15)
+                passtext.grid(row=2, column=1)
+                Button(frame, text="Select File", command=lambda: compress()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
 
 
 # root.mainloop()
