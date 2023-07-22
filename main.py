@@ -41,6 +41,7 @@ class Window():
             "Extract Range": "extractrange",
             "Merge": "merge",
             "Convert to PNG": "pdf2png",
+            "Add Password": "encrypt",
             "Remove Password": "decrypt"
         }
 
@@ -249,7 +250,7 @@ class Window():
                 self.DecryptFrame = LabelFrame(self.master, text="Remove PDF Password", width=250, height=150)
                 self.DecryptFrame.place(x=165, y=10)
                 frame = self.DecryptFrame
-                Label(frame, text="NOTE:- You may select only one file at a time for extraction.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2)
+                Label(frame, text="NOTE:- You may select only one file at a time for decryption.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2)
                 def decrypt():
                     try:
                         # Fetch the filepath
@@ -262,10 +263,11 @@ class Window():
                         Label(frame, text=f"Selected File:- {filepath}", wraplength=400, justify=LEFT).grid(row=5, column=0, columnspan=3, sticky='w', padx=5, pady=5)
                         # Extract all pages of the PDF file
                         input_pdf = PdfReader(filepath)
+                        if not input_pdf.is_encrypted:
+                            raise Exception("The PDF is not encrypted!")
                         # Decrypt the encrypted PDF
-                        if input_pdf.is_encrypted:
-                            password = str(passtext.get())
-                            input_pdf.decrypt(password)
+                        password = str(passtext.get())
+                        input_pdf.decrypt(password)
                         # Create a copy of the file; reqd as input for fitz
                         output = PdfWriter()
                         for i, page in enumerate(input_pdf.pages):
@@ -281,6 +283,51 @@ class Window():
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=2, column=1)
                 Button(frame, text="Select File", command=lambda: decrypt()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
+                try:
+                    self.ExtractAllFrame.destroy()
+                    self.ExtractRangeFrame.destroy()
+                    self.MergeFrame.destroy()
+                    self.ExtractPNGFrame.destroy()
+                except AttributeError:
+                    pass
+
+            elif selection.get() == "encrypt":
+                self.EncryptFrame = LabelFrame(self.master, text="Remove PDF Password", width=250, height=150)
+                self.EncryptFrame.place(x=165, y=10)
+                frame = self.EncryptFrame
+                Label(frame, text="NOTE:- You may select only one file at a time for encryption.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2)
+                def encrypt():
+                    try:
+                        # Fetch the filepath
+                        absfilepath = filedialog.askopenfilename(initialdir="/", title="Select a file", filetypes=[("PDF files", "*.pdf")])
+                        filepath = absfilepath.replace('/', '\\')
+                        p = Path(filepath)
+                        outputdir = str(p.parent)
+                        filename_only = str(p.name).split('.')[0]
+                        fileext = str(p.suffix)
+                        Label(frame, text=f"Selected File:- {filepath}", wraplength=400, justify=LEFT).grid(row=5, column=0, columnspan=3, sticky='w', padx=5, pady=5)
+                        # Extract all pages of the PDF file
+                        input_pdf = PdfReader(filepath)
+                        if input_pdf.is_encrypted:
+                            raise Exception("The PDF is already encrypted!")
+                        # Create a copy of the file; reqd as input for fitz
+                        output = PdfWriter()
+                        for i, page in enumerate(input_pdf.pages):
+                            output.add_page(page)
+                        # Encrypt the unencrypted PDF
+                        password = str(passtext.get())
+                        output.encrypt(password)
+                        encrypted_filepath = fr"{outputdir}\{filename_only}_Encrypted.pdf"
+                        with open(encrypted_filepath, "wb") as output_stream:
+                            output.write(output_stream)
+                        Label(frame, text=f"Encrypted File:- {encrypted_filepath}", bg="lime", fg="black", wraplength=475, justify=LEFT).grid(row=7, column=0, sticky='w', padx=5, pady=5)
+                        messagebox.showinfo(title="Success", message="Task completed successfully.")
+                    except Exception as e:
+                        messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
+                Label(frame, text="Password for encrypted files:", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                passtext = Entry(frame, show="*", width=15)
+                passtext.grid(row=2, column=1)
+                Button(frame, text="Select File", command=lambda: encrypt()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
                 try:
                     self.ExtractAllFrame.destroy()
                     self.ExtractRangeFrame.destroy()
