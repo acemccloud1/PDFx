@@ -100,7 +100,7 @@ class Window():
                         messagebox.showinfo(title="Success", message="Task completed successfully.")
                     except Exception as e:
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
-                Label(frame, text="Password for encrypted file:", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                Label(frame, text="Password (if PDF is encrypted):", wraplength=400, justify=LEFT).grid(row=2, column=0)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=2, column=1)
                 Button(frame, text="Select File", command=lambda: extractall()).grid(row=3, column=0, padx=10, pady=10, columnspan=2)
@@ -110,8 +110,8 @@ class Window():
                 self.ExtractRangeFrame = LabelFrame(self.master, text="Extract Custom Range", width=250, height=150)
                 self.ExtractRangeFrame.place(x=165, y=10)
                 frame = self.ExtractRangeFrame
-                Label(frame, text="NOTE:- You may select only one file at a time for extraction.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=0, column=0, columnspan=2, padx=10, pady=10)
-                Label(frame, text="Password for encrypted file:", wraplength=400, justify=LEFT).grid(row=1, column=0)
+                Label(frame, text="NOTE:- You may select only one file at a time for extraction.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=0, column=0, columnspan=2, sticky='w', padx=10, pady=10)
+                Label(frame, text="Password (if PDF is encrypted):", wraplength=400, justify=LEFT).grid(row=1, column=0)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=1, column=1)
                 Label(frame, text="Step# 1 --> Start Page#", wraplength=400, justify=LEFT).grid(row=2, column=0)
@@ -191,7 +191,7 @@ class Window():
                 self.ExtractPNGFrame = LabelFrame(self.master, text="Extract All Pages As PNG", width=250, height=150)
                 self.ExtractPNGFrame.place(x=165, y=10)
                 frame = self.ExtractPNGFrame
-                Label(frame, text="NOTE:- You may select only one file at a time for extraction.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2)
+                Label(frame, text="NOTE:- You may select only one file at a time for extraction.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2, sticky='w', padx=10, pady=10)
                 def extractpng():
                     try:
                         # Fetch the filepath
@@ -229,7 +229,7 @@ class Window():
                         messagebox.showinfo(title="Success", message="Task completed successfully.")
                     except Exception as e:
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
-                Label(frame, text="Password for encrypted file:", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                Label(frame, text="Password (if PDF is encrypted):", wraplength=400, justify=LEFT).grid(row=2, column=0)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=2, column=1)
                 Label(frame, text="IMP:- This may take a while. Please be patient.....", fg='Red', wraplength=400, justify=LEFT, font='Helvetica 11 bold').grid(row=3, column=0, columnspan=2, padx=15, pady=15)
@@ -237,10 +237,10 @@ class Window():
 
             elif selection.get() == "decrypt":
                 clear_canvas()
-                self.DecryptFrame = LabelFrame(self.master, text="Remove PDF Password", width=250, height=150)
+                self.DecryptFrame = LabelFrame(self.master, text="Decrypt PDF", width=250, height=150)
                 self.DecryptFrame.place(x=165, y=10)
                 frame = self.DecryptFrame
-                Label(frame, text="NOTE:- You may select only one file at a time for decryption.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2)
+                Label(frame, text="NOTE:- You may select only one file at a time for decryption.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2, sticky='w', padx=10, pady=10)
                 def decrypt():
                     try:
                         # Fetch the filepath
@@ -269,17 +269,17 @@ class Window():
                         messagebox.showinfo(title="Success", message="Task completed successfully.")
                     except Exception as e:
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
-                Label(frame, text="Password for encrypted file:", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                Label(frame, text="Password (if PDF is encrypted):", wraplength=400, justify=LEFT).grid(row=2, column=0)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=2, column=1)
                 Button(frame, text="Select File", command=lambda: decrypt()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
 
             elif selection.get() == "encrypt":
                 clear_canvas()
-                self.EncryptFrame = LabelFrame(self.master, text="Remove PDF Password", width=250, height=150)
+                self.EncryptFrame = LabelFrame(self.master, text="Encrypt PDF", width=250, height=150)
                 self.EncryptFrame.place(x=165, y=10)
                 frame = self.EncryptFrame
-                Label(frame, text="NOTE:- You may select only one file at a time for encryption.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2)
+                Label(frame, text="NOTE:- You may select only one file at a time for encryption.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2, sticky='w', padx=10, pady=10)
                 def encrypt():
                     try:
                         # Fetch the filepath
@@ -308,7 +308,7 @@ class Window():
                         messagebox.showinfo(title="Success", message="Task completed successfully.")
                     except Exception as e:
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
-                Label(frame, text="Password to encrypt file:", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                Label(frame, text="Password for encrypting PDF:", wraplength=400, justify=LEFT).grid(row=2, column=0)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=2, column=1)
                 Button(frame, text="Select File", command=lambda: encrypt()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
@@ -318,7 +318,7 @@ class Window():
                 self.CompressFrame = LabelFrame(self.master, text="Remove PDF Password", width=250, height=150)
                 self.CompressFrame.place(x=165, y=10)
                 frame = self.CompressFrame
-                Label(frame, text="NOTE:- You may select only one file at a time for compression.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2)
+                Label(frame, text="NOTE:- You may select only one file at a time for compression.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2, sticky='w', padx=10, pady=10)
                 def compress():
                     try:
                         # Fetch the filepath
@@ -348,7 +348,7 @@ class Window():
                         messagebox.showinfo(title="Success", message="Task completed successfully.")
                     except Exception as e:
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
-                Label(frame, text="Password for encrypted file:", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                Label(frame, text="Password (if PDF is encrypted):", wraplength=400, justify=LEFT).grid(row=2, column=0)
                 Label(frame, text="IMP:- Compression works only if the input file is inflated or has duplicated objects.", fg='Red', wraplength=400, justify=LEFT, font='TkTextFont 10 bold').grid(row=3, column=0, columnspan=2, padx=15, pady=15)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=2, column=1)
