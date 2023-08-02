@@ -6,6 +6,7 @@ from tkinter import messagebox
 from pathlib import Path
 from base64 import b64decode
 import os
+from time import sleep
 
 
 # Encode the PNG files into byte-data so there's no need to package any additional data files into the EXE
@@ -63,6 +64,7 @@ class Window():
                 self.EncryptFrame.destroy()
                 self.DecryptFrame.destroy()
                 self.CompressFrame.destroy()
+                sleep(0.15)
             except AttributeError:
                 pass
 
@@ -165,7 +167,7 @@ class Window():
                 Label(frame, text="TIP:- Prefix the filenames with numericals (1, 2 etc.) to enforce the order sequence.", fg='MediumSeaGreen', wraplength=475, justify=LEFT).grid(row=2, column=0, columnspan=2, sticky='w', padx=10, pady=5)
                 def mergeall():
                     try:
-                        # Fetch the folderpath
+                        # Fetch the folder-path
                         filepath_tuple = filedialog.askopenfilenames(initialdir="/", title="Select files", filetypes=[("PDF files", "*.pdf")])
                         filepath = filepath_tuple[0].replace('/', '\\')
                         p = Path(filepath)
@@ -200,7 +202,6 @@ class Window():
                         p = Path(filepath)
                         outputdir = str(p.parent)
                         filename_only = str(p.name).split('.')[0]
-                        fileext = str(p.suffix)
                         Label(frame, text=f"Selected File:- {filepath}", wraplength=400, justify=LEFT).grid(row=5, column=0, columnspan=3, sticky='w', padx=5, pady=5)
                         Label(frame, text=fr"Output Directory:- {outputdir}", bg="lime", fg="black", wraplength=400, justify=LEFT).grid(row=6, column=0, columnspan=3, sticky='w', padx=5, pady=5)
                         # Extract all pages of the PDF file
@@ -249,7 +250,6 @@ class Window():
                         p = Path(filepath)
                         outputdir = str(p.parent)
                         filename_only = str(p.name).split('.')[0]
-                        fileext = str(p.suffix)
                         Label(frame, text=f"Selected File:- {filepath}", wraplength=400, justify=LEFT).grid(row=5, column=0, columnspan=3, sticky='w', padx=5, pady=5)
                         # Extract all pages of the PDF file
                         input_pdf = PdfReader(filepath)
@@ -288,7 +288,6 @@ class Window():
                         p = Path(filepath)
                         outputdir = str(p.parent)
                         filename_only = str(p.name).split('.')[0]
-                        fileext = str(p.suffix)
                         Label(frame, text=f"Selected File:- {filepath}", wraplength=400, justify=LEFT).grid(row=5, column=0, columnspan=3, sticky='w', padx=5, pady=5)
                         # Extract all pages of the PDF file
                         input_pdf = PdfReader(filepath)
@@ -327,7 +326,6 @@ class Window():
                         p = Path(filepath)
                         outputdir = str(p.parent)
                         filename_only = str(p.name).split('.')[0]
-                        fileext = str(p.suffix)
                         Label(frame, text=f"Selected File:- {filepath}", wraplength=400, justify=LEFT).grid(row=5, column=0, columnspan=3, sticky='w', padx=5, pady=5)
                         # Extract all pages of the PDF file
                         input_pdf = PdfReader(filepath)
