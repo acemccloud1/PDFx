@@ -42,8 +42,8 @@ class Window():
             "Extract Range": "extractrange",
             "Merge": "merge",
             "Convert to PNG": "pdf2png",
-            "Add Password": "encrypt",
-            "Remove Password": "decrypt",
+            "Encrypt": "encrypt",
+            "Decrypt": "decrypt",
             "Compress": "compress"
         }
 
@@ -269,7 +269,7 @@ class Window():
                         messagebox.showinfo(title="Success", message="Task completed successfully.")
                     except Exception as e:
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
-                Label(frame, text="Password (if PDF is encrypted):", wraplength=400, justify=LEFT).grid(row=2, column=0)
+                Label(frame, text="Password for decrypting PDF:", wraplength=400, justify=LEFT).grid(row=2, column=0)
                 passtext = Entry(frame, show="*", width=15)
                 passtext.grid(row=2, column=1)
                 Button(frame, text="Select File", command=lambda: decrypt()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
