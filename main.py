@@ -6,6 +6,7 @@ from tkinter import messagebox
 from pathlib import Path
 from base64 import b64decode
 import os
+import contextlib
 from time import sleep
 
 
@@ -38,37 +39,74 @@ class Window():
         self.InfoFrame.place(x=10, y=320)
 
         Options = {
+            "Clean Slate": "cleanslate",
             "Extract All": "extractall",
             "Extract Range": "extractrange",
             "Merge": "merge",
             "Convert to PNG": "pdf2png",
             "Encrypt": "encrypt",
             "Decrypt": "decrypt",
-            "Compress": "compress"
+            "Compress": "compress",
         }
 
         selection = StringVar()
-        selection.set("extractall")
+        selection.set("cleanslate")
 
         for text, value in Options.items():
             Radiobutton(self.RadioFrame, text=text, variable=selection, value=value, command=lambda: Clicked(selection.get())).pack(anchor=W)
 
-        Label(self.InfoFrame, text=f"Creator: Unmesh Patil\nLanguage: Python\nVersion: 23.07.22", wraplength=400, justify=LEFT).pack(anchor=W)
+        Label(self.InfoFrame, text=f"Creator: Unmesh Patil\nLanguage: Python\nVersion: 24.01.04", wraplength=400, justify=LEFT).pack(anchor=W)
+
 
         def clear_canvas():
+            # Method-1 (Not Working)
+            # with contextlib.suppress(AttributeError):
+            #     self.ExtractAllFrame.destroy()
+            #     self.ExtractRangeFrame.destroy()
+            #     self.MergeFrame.destroy()
+            #     self.ExtractPNGFrame.destroy()
+            #     self.EncryptFrame.destroy()
+            #     self.DecryptFrame.destroy()
+            #     self.CompressFrame.destroy()
+            # Method-2 (Not Working)
+            # for i in ["ExtractAllFrame", "ExtractRangeFrame", "MergeFrame", "ExtractPNGFrame", "EncryptFrame", "DecryptFrame", "CompressFrame"]:
+            #     try:
+            #         self.i.destroy()
+            #     except AttributeError:
+            #         pass
+            # Method-3 (*Works*)
             try:
                 self.ExtractAllFrame.destroy()
+            except AttributeError:
+                pass
+            try:
                 self.ExtractRangeFrame.destroy()
+            except AttributeError:
+                pass
+            try:
                 self.MergeFrame.destroy()
+            except AttributeError:
+                pass
+            try:
                 self.ExtractPNGFrame.destroy()
+            except AttributeError:
+                pass
+            try:
                 self.EncryptFrame.destroy()
+            except AttributeError:
+                pass
+            try:
                 self.DecryptFrame.destroy()
+            except AttributeError:
+                pass
+            try:
                 self.CompressFrame.destroy()
-                sleep(0.15)
             except AttributeError:
                 pass
 
+
         def Clicked(variable):
+            # Extract all pages from a PDF file
             if selection.get() == "extractall":
                 clear_canvas()
                 self.ExtractAllFrame = LabelFrame(self.master, text="Extract All Pages", width=250, height=150)
@@ -107,6 +145,7 @@ class Window():
                 passtext.grid(row=2, column=1)
                 Button(frame, text="Select File", command=lambda: extractall()).grid(row=3, column=0, padx=10, pady=10, columnspan=2)
 
+            # Extract specific pages/range from a PDF file
             elif selection.get() == "extractrange":
                 clear_canvas()
                 self.ExtractRangeFrame = LabelFrame(self.master, text="Extract Custom Range", width=250, height=150)
@@ -157,6 +196,7 @@ class Window():
                 Label(frame, text="Step# 3 --> ", wraplength=400, justify=LEFT).grid(row=4, column=0)
                 Button(frame, text="Select File", command=lambda: extractrange()).grid(row=4, column=1, padx=5, pady=5)
 
+            # Merge multiple PDF files
             elif selection.get() == "merge":
                 clear_canvas()
                 self.MergeFrame = LabelFrame(self.master, text="Merge PDF", width=250, height=150)
@@ -188,6 +228,7 @@ class Window():
                         messagebox.showerror(title="ERROR", message=fr"Error:- {e}")
                 Button(frame, text="Select Files", command=lambda: mergeall()).grid(row=3, column=0, padx=10, pady=10, columnspan=2)
 
+            # Convert all pages of a PDF file into PNG files
             elif selection.get() == "pdf2png":
                 clear_canvas()
                 self.ExtractPNGFrame = LabelFrame(self.master, text="Extract All Pages As PNG", width=250, height=150)
@@ -236,6 +277,7 @@ class Window():
                 Label(frame, text="IMP:- This may take a while. Please be patient.....", fg='Red', wraplength=400, justify=LEFT, font='Helvetica 11 bold').grid(row=3, column=0, columnspan=2, padx=15, pady=15)
                 Button(frame, text="Select File", command=lambda: extractpng()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
 
+            # Decrypt a PDF file
             elif selection.get() == "decrypt":
                 clear_canvas()
                 self.DecryptFrame = LabelFrame(self.master, text="Decrypt PDF", width=250, height=150)
@@ -274,6 +316,7 @@ class Window():
                 passtext.grid(row=2, column=1)
                 Button(frame, text="Select File", command=lambda: decrypt()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
 
+            # Encrypt a PDF file
             elif selection.get() == "encrypt":
                 clear_canvas()
                 self.EncryptFrame = LabelFrame(self.master, text="Encrypt PDF", width=250, height=150)
@@ -312,9 +355,10 @@ class Window():
                 passtext.grid(row=2, column=1)
                 Button(frame, text="Select File", command=lambda: encrypt()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
 
+            # Compress a PDF file
             elif selection.get() == "compress":
                 clear_canvas()
-                self.CompressFrame = LabelFrame(self.master, text="Remove PDF Password", width=250, height=150)
+                self.CompressFrame = LabelFrame(self.master, text="Compress PDF", width=250, height=150)
                 self.CompressFrame.place(x=165, y=10)
                 frame = self.CompressFrame
                 Label(frame, text="NOTE:- You may select only one file at a time for compression.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2, sticky='w', padx=10, pady=10)
@@ -353,6 +397,11 @@ class Window():
                 Button(frame, text="Select File", command=lambda: compress()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
 
 
-# root.mainloop()
+            # Compress a PDF file
+            elif selection.get() == "cleanslate":
+                clear_canvas()
+
+
+# Run the main program; 'root.mainloop()'
 if __name__ == '__main__':
     main()
