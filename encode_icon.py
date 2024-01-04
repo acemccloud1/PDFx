@@ -1,4 +1,5 @@
 # encode_icon.py
+# Add 'pyperclip==1.8.2' to requirements.txt *only* if you need to change the bundled icons
 # Usage:- 'python encode_icon.py icon-16.png'
 
 from base64 import b64encode

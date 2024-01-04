@@ -1,0 +1,12 @@
+# PyInstaller (OSI Approved :: GNU General Public License v2 {GPLv2})
+Docs:- https://pyinstaller.org/
+PyPI:- https://pypi.org/project/pyinstaller/
+
+# PyMuPDF (AGPL & Commercial)
+PyMuPDF is available under open-source AGPL and commercial license agreements. If you determine you cannot meet the requirements of the AGPL, please contact Artifex for more information regarding a commercial license.
+Docs:- https://pymupdf.readthedocs.io/
+PyPI:- https://pypi.org/project/PyMuPDF/
+
+# PyPDF2 (OSI Approved :: BSD License)
+Docs:- https://pypdf2.readthedocs.io/en/stable/
+PyPI:- https://pypi.org/project/PyPDF2/
