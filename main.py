@@ -256,6 +256,9 @@ class Window():
                         input_pdf = PdfReader(filepath)
                         if not input_pdf.is_encrypted:
                             raise Exception("The PDF is not encrypted!")
+                        # Raise error for empty password
+                        if passtext.get() == "":
+                            raise Exception("Please type in a password for decryption!")
                         # Decrypt the encrypted PDF
                         password = str(passtext.get())
                         input_pdf.decrypt(password)
@@ -295,6 +298,8 @@ class Window():
                         input_pdf = PdfReader(filepath)
                         if input_pdf.is_encrypted:
                             raise Exception("The PDF is already encrypted!")
+                        if passtext.get() == "":
+                            raise Exception("Please type in a password for encryption!")
                         # Create a copy of the file; reqd as input for fitz
                         output = PdfWriter()
                         for i, page in enumerate(input_pdf.pages):
