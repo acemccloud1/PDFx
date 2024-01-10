@@ -6,7 +6,6 @@ from tkinter import messagebox
 from pathlib import Path
 from base64 import b64decode
 import os
-import contextlib
 from time import sleep
 
 
@@ -59,48 +58,8 @@ class Window():
 
 
         def clear_canvas():
-            # Method-1 (Not Working)
-            # with contextlib.suppress(AttributeError):
-            #     self.ExtractAllFrame.destroy()
-            #     self.ExtractRangeFrame.destroy()
-            #     self.MergeFrame.destroy()
-            #     self.ExtractPNGFrame.destroy()
-            #     self.EncryptFrame.destroy()
-            #     self.DecryptFrame.destroy()
-            #     self.CompressFrame.destroy()
-            # Method-2 (Not Working)
-            # for i in ["ExtractAllFrame", "ExtractRangeFrame", "MergeFrame", "ExtractPNGFrame", "EncryptFrame", "DecryptFrame", "CompressFrame"]:
-            #     try:
-            #         self.i.destroy()
-            #     except AttributeError:
-            #         pass
-            # Method-3 (*Works*)
             try:
-                self.ExtractAllFrame.destroy()
-            except AttributeError:
-                pass
-            try:
-                self.ExtractRangeFrame.destroy()
-            except AttributeError:
-                pass
-            try:
-                self.MergeFrame.destroy()
-            except AttributeError:
-                pass
-            try:
-                self.ExtractPNGFrame.destroy()
-            except AttributeError:
-                pass
-            try:
-                self.EncryptFrame.destroy()
-            except AttributeError:
-                pass
-            try:
-                self.DecryptFrame.destroy()
-            except AttributeError:
-                pass
-            try:
-                self.CompressFrame.destroy()
+                self.MainFrame.destroy()
             except AttributeError:
                 pass
 
@@ -109,9 +68,9 @@ class Window():
             # Extract all pages from a PDF file
             if selection.get() == "extractall":
                 clear_canvas()
-                self.ExtractAllFrame = LabelFrame(self.master, text="Extract All Pages", width=250, height=150)
-                self.ExtractAllFrame.place(x=165, y=10)
-                frame = self.ExtractAllFrame
+                self.MainFrame = LabelFrame(self.master, text="Extract All Pages", width=250, height=150)
+                self.MainFrame.place(x=165, y=10)
+                frame = self.MainFrame
                 Label(frame, text="NOTE:- You may select only one file at a time for extraction.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2, sticky='w', padx=10, pady=10)
                 def extractall():
                     try:
@@ -148,9 +107,9 @@ class Window():
             # Extract specific pages/range from a PDF file
             elif selection.get() == "extractrange":
                 clear_canvas()
-                self.ExtractRangeFrame = LabelFrame(self.master, text="Extract Custom Range", width=250, height=150)
-                self.ExtractRangeFrame.place(x=165, y=10)
-                frame = self.ExtractRangeFrame
+                self.MainFrame = LabelFrame(self.master, text="Extract Custom Range", width=250, height=150)
+                self.MainFrame.place(x=165, y=10)
+                frame = self.MainFrame
                 Label(frame, text="NOTE:- You may select only one file at a time for extraction.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=0, column=0, columnspan=2, sticky='w', padx=10, pady=10)
                 Label(frame, text="Password (if PDF is encrypted):", wraplength=400, justify=LEFT).grid(row=1, column=0)
                 passtext = Entry(frame, show="*", width=15)
@@ -199,9 +158,9 @@ class Window():
             # Merge multiple PDF files
             elif selection.get() == "merge":
                 clear_canvas()
-                self.MergeFrame = LabelFrame(self.master, text="Merge PDF", width=250, height=150)
-                self.MergeFrame.place(x=165, y=10)
-                frame = self.MergeFrame
+                self.MainFrame = LabelFrame(self.master, text="Merge PDF", width=250, height=150)
+                self.MainFrame.place(x=165, y=10)
+                frame = self.MainFrame
                 Label(frame, text="IMP:- Password-Protected PDF files are *NOT* supported for merge operation! Please unencrypt them before merging.", fg='Red', wraplength=475, justify=LEFT).grid(row=0, column=0, columnspan=2, sticky='w', padx=10, pady=5)
                 Label(frame, text="NOTE:- The selected files will be sorted in an ascending order before merging, so please name them in the order you want them merged.", fg='OrangeRed', wraplength=475, justify=LEFT).grid(row=1, column=0, columnspan=2, sticky='w', padx=10, pady=5)
                 Label(frame, text="TIP:- Prefix the filenames with numericals (1, 2 etc.) to enforce the order sequence.", fg='MediumSeaGreen', wraplength=475, justify=LEFT).grid(row=2, column=0, columnspan=2, sticky='w', padx=10, pady=5)
@@ -231,9 +190,9 @@ class Window():
             # Convert all pages of a PDF file into PNG files
             elif selection.get() == "pdf2png":
                 clear_canvas()
-                self.ExtractPNGFrame = LabelFrame(self.master, text="Extract All Pages As PNG", width=250, height=150)
-                self.ExtractPNGFrame.place(x=165, y=10)
-                frame = self.ExtractPNGFrame
+                self.MainFrame = LabelFrame(self.master, text="Extract All Pages As PNG", width=250, height=150)
+                self.MainFrame.place(x=165, y=10)
+                frame = self.MainFrame
                 Label(frame, text="NOTE:- You may select only one file at a time for extraction.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2, sticky='w', padx=10, pady=10)
                 def extractpng():
                     try:
@@ -263,7 +222,7 @@ class Window():
                         doc = fitz.open(pdf_path)
                         for i in range(len(doc)):
                             page = doc.load_page(i)
-                            pix = page.get_pixmap(dpi=250)
+                            pix = page.get_pixmap(dpi=150)
                             output = fr"{outputdir}\{filename_only}_{i+1}.png"
                             pix.save(output)
                         doc.close()
@@ -280,9 +239,9 @@ class Window():
             # Decrypt a PDF file
             elif selection.get() == "decrypt":
                 clear_canvas()
-                self.DecryptFrame = LabelFrame(self.master, text="Decrypt PDF", width=250, height=150)
-                self.DecryptFrame.place(x=165, y=10)
-                frame = self.DecryptFrame
+                self.MainFrame = LabelFrame(self.master, text="Decrypt PDF", width=250, height=150)
+                self.MainFrame.place(x=165, y=10)
+                frame = self.MainFrame
                 Label(frame, text="NOTE:- You may select only one file at a time for decryption.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2, sticky='w', padx=10, pady=10)
                 def decrypt():
                     try:
@@ -319,9 +278,9 @@ class Window():
             # Encrypt a PDF file
             elif selection.get() == "encrypt":
                 clear_canvas()
-                self.EncryptFrame = LabelFrame(self.master, text="Encrypt PDF", width=250, height=150)
-                self.EncryptFrame.place(x=165, y=10)
-                frame = self.EncryptFrame
+                self.MainFrame = LabelFrame(self.master, text="Encrypt PDF", width=250, height=150)
+                self.MainFrame.place(x=165, y=10)
+                frame = self.MainFrame
                 Label(frame, text="NOTE:- You may select only one file at a time for encryption.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2, sticky='w', padx=10, pady=10)
                 def encrypt():
                     try:
@@ -358,9 +317,9 @@ class Window():
             # Compress a PDF file
             elif selection.get() == "compress":
                 clear_canvas()
-                self.CompressFrame = LabelFrame(self.master, text="Compress PDF", width=250, height=150)
-                self.CompressFrame.place(x=165, y=10)
-                frame = self.CompressFrame
+                self.MainFrame = LabelFrame(self.master, text="Compress PDF", width=250, height=150)
+                self.MainFrame.place(x=165, y=10)
+                frame = self.MainFrame
                 Label(frame, text="NOTE:- You may select only one file at a time for compression.", fg='OrangeRed', wraplength=400, justify=LEFT).grid(row=1, column=0, columnspan=2, sticky='w', padx=10, pady=10)
                 def compress():
                     try:
