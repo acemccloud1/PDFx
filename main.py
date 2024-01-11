@@ -87,6 +87,8 @@ class Window():
                         input_pdf = PdfReader(filepath)
                         # Decrypt if the PDF is encrypted
                         if input_pdf.is_encrypted:
+                            if passtext.get() == "":
+                                raise Exception("Encrypted file. Please enter password!")
                             password = str(passtext.get())
                             input_pdf.decrypt(password)
                         # Begin page extraction
@@ -137,6 +139,8 @@ class Window():
                         input_pdf = PdfReader(filepath)
                         # Decrypt if the PDF is encrypted
                         if input_pdf.is_encrypted:
+                            if passtext.get() == "":
+                                raise Exception("Encrypted file. Please enter password!")
                             password = str(passtext.get())
                             input_pdf.decrypt(password)
                         # Begin page extraction
@@ -208,6 +212,8 @@ class Window():
                         input_pdf = PdfReader(filepath)
                         # Decrypt if the PDF is encrypted
                         if input_pdf.is_encrypted:
+                            if passtext.get() == "":
+                                raise Exception("Encrypted file. Please enter password!")
                             password = str(passtext.get())
                             input_pdf.decrypt(password)
                         # Create a copy of the file; reqd as input for fitz
@@ -338,6 +344,8 @@ class Window():
                         # Extract all pages of the PDF file
                         input_pdf = PdfReader(filepath)
                         if input_pdf.is_encrypted:
+                            if passtext.get() == "":
+                                raise Exception("Encrypted file. Please enter password!")
                             password = str(passtext.get())
                             input_pdf.decrypt(password)
                         # Create a copy of the file; reqd as input for fitz
@@ -361,9 +369,23 @@ class Window():
                 Button(frame, text="Select File", command=lambda: compress()).grid(row=4, column=0, padx=10, pady=10, columnspan=2)
 
 
-            # Compress a PDF file
+            # Clear all frames for a clean slate & display image with 'PDFx' text
             elif selection.get() == "cleanslate":
                 clear_canvas()
+                self.MainFrame = Canvas(self.master, width=300, height=400, border=10)
+                self.MainFrame.place(x=165, y=10)
+                canvas = self.MainFrame
+                canvas.pack()
+                # Display image in canvas
+                canvas.create_image(175,125,anchor="w",image=large_icon)
+                # Create a text in canvas
+                text = canvas.create_text(125,225, text=" PDFx ", font=('Calibri 50'), anchor="w", fill="white")
+                # Make the bounding-box around text
+                bbox = canvas.bbox(text)
+                # Create a rectangle inside the bounding box
+                rect = canvas.create_rectangle(bbox, outline="gray", fill="black", width=7)
+                # Make the text above to the rectangle
+                canvas.tag_raise(text, rect)
 
 
 # Run the main program; 'root.mainloop()'
