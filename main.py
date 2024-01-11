@@ -384,7 +384,7 @@ class Window():
                 bbox = canvas.bbox(text)
                 # Create a rectangle inside the bounding box
                 rect = canvas.create_rectangle(bbox, outline="gray", fill="black", width=7)
-                # Make the text above to the rectangle
+                # Raise the text above to the rectangle
                 canvas.tag_raise(text, rect)
 
 
